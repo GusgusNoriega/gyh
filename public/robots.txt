@@ -1,0 +1,23 @@
+User-agent: *
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /login
+Disallow: /logout
+Disallow: /up
+Disallow: /media-example
+Disallow: /quotes
+Disallow: /projects
+Disallow: /users
+Disallow: /rbac
+Disallow: /currencies
+Disallow: /color-themes
+Disallow: /smtp-settings
+Disallow: /email-templates
+Disallow: /funnel
+
+# Permitir recursos necesarios para renderizar la home
+Allow: /img/
+Allow: /favicon.ico
+Allow: /sitemap.xml
+
+Sitemap: https://systemsgg.com/sitemap.xml

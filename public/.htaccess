@@ -1,0 +1,294 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # =============================================================
+    # HTTPS (sin forzar un host específico)
+    #
+    # IMPORTANTE:
+    # Antes este proyecto forzaba SIEMPRE el dominio "systemsgg.com",
+    # lo cual causa redirecciones inesperadas cuando se despliega en
+    # otro dominio/entorno.
+    #
+    # Mantener solo el upgrade a HTTPS sobre el mismo host solicitado.
+    # =============================================================
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# ===================================================================
+# OPTIMIZACIÓN PARA PAGESPEED / GTMETRIX
+# ===================================================================
+
+# -------------------------------------------------------------------
+# COMPRESIÓN GZIP/BROTLI
+# -------------------------------------------------------------------
+<IfModule mod_deflate.c>
+    # Comprimir HTML, CSS, JavaScript, Text, XML y fonts
+    AddOutputFilterByType DEFLATE application/atom+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/ld+json
+    AddOutputFilterByType DEFLATE application/manifest+json
+    AddOutputFilterByType DEFLATE application/rdf+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/schema+json
+    AddOutputFilterByType DEFLATE application/vnd.geo+json
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/wasm
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/x-web-app-manifest+json
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE font/collection
+    AddOutputFilterByType DEFLATE font/eot
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE font/woff
+    AddOutputFilterByType DEFLATE font/woff2
+    AddOutputFilterByType DEFLATE image/bmp
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/vnd.microsoft.icon
+    AddOutputFilterByType DEFLATE image/x-icon
+    AddOutputFilterByType DEFLATE text/cache-manifest
+    AddOutputFilterByType DEFLATE text/calendar
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/vcard
+    AddOutputFilterByType DEFLATE text/vnd.rim.location.xloc
+    AddOutputFilterByType DEFLATE text/vtt
+    AddOutputFilterByType DEFLATE text/x-component
+    AddOutputFilterByType DEFLATE text/x-cross-domain-policy
+    AddOutputFilterByType DEFLATE text/xml
+    
+    # Excluir imágenes ya comprimidas
+    SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|webp|avif)$ no-gzip dont-vary
+    
+    # Nivel de compresión
+    DeflateCompressionLevel 6
+    
+    # Navegadores antiguos
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+    
+    # Proxy
+    <IfModule mod_headers.c>
+        Header append Vary Accept-Encoding
+    </IfModule>
+</IfModule>
+
+# Brotli (si está disponible - más eficiente que gzip)
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css
+    AddOutputFilterByType BROTLI_COMPRESS application/javascript application/x-javascript
+    AddOutputFilterByType BROTLI_COMPRESS application/json application/ld+json
+    AddOutputFilterByType BROTLI_COMPRESS application/xml application/xhtml+xml
+    AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+    AddOutputFilterByType BROTLI_COMPRESS font/woff font/woff2 font/ttf font/otf
+    
+    BrotliCompressionQuality 6
+</IfModule>
+
+# -------------------------------------------------------------------
+# CACHÉ DEL NAVEGADOR (Browser Caching)
+# -------------------------------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    
+    # HTML - caché corto para contenido dinámico
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType application/xhtml+xml "access plus 0 seconds"
+    
+    # Datos
+    ExpiresByType application/json "access plus 0 seconds"
+    ExpiresByType application/ld+json "access plus 0 seconds"
+    ExpiresByType application/schema+json "access plus 0 seconds"
+    ExpiresByType application/xml "access plus 0 seconds"
+    ExpiresByType text/calendar "access plus 0 seconds"
+    ExpiresByType text/xml "access plus 0 seconds"
+    
+    # Manifiestos
+    ExpiresByType application/manifest+json "access plus 1 week"
+    ExpiresByType application/x-web-app-manifest+json "access plus 1 week"
+    ExpiresByType text/cache-manifest "access plus 0 seconds"
+    
+    # Feeds
+    ExpiresByType application/atom+xml "access plus 1 hour"
+    ExpiresByType application/rdf+xml "access plus 1 hour"
+    ExpiresByType application/rss+xml "access plus 1 hour"
+    
+    # Favicon
+    ExpiresByType image/vnd.microsoft.icon "access plus 1 week"
+    ExpiresByType image/x-icon "access plus 1 week"
+    
+    # Medios: imágenes (caché largo)
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/avif "access plus 1 year"
+    ExpiresByType image/bmp "access plus 1 year"
+    ExpiresByType image/tiff "access plus 1 year"
+    
+    # Audio/Video
+    ExpiresByType audio/mpeg "access plus 1 year"
+    ExpiresByType audio/ogg "access plus 1 year"
+    ExpiresByType audio/wav "access plus 1 year"
+    ExpiresByType audio/webm "access plus 1 year"
+    ExpiresByType video/mp4 "access plus 1 year"
+    ExpiresByType video/ogg "access plus 1 year"
+    ExpiresByType video/webm "access plus 1 year"
+    
+    # Fuentes (caché muy largo)
+    ExpiresByType font/collection "access plus 1 year"
+    ExpiresByType font/eot "access plus 1 year"
+    ExpiresByType font/opentype "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+    ExpiresByType application/x-font-ttf "access plus 1 year"
+    ExpiresByType application/x-font-woff "access plus 1 year"
+    
+    # CSS y JavaScript (con hash en Vite, caché muy largo)
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType application/x-javascript "access plus 1 year"
+    
+    # WebAssembly
+    ExpiresByType application/wasm "access plus 1 year"
+    
+    # Otros
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType application/zip "access plus 1 month"
+</IfModule>
+
+# Cache-Control Headers para mejor control
+<IfModule mod_headers.c>
+    # 1 año para assets con hash (JS, CSS, imágenes compiladas)
+    <FilesMatch "\.(css|js|mjs)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    
+    # 1 año para imágenes
+    <FilesMatch "\.(gif|ico|jpe?g|png|svg|webp|avif)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    
+    # 1 año para fuentes
+    <FilesMatch "\.(eot|otf|ttf|woff2?)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    
+    # HTML sin caché (para contenido dinámico)
+    <FilesMatch "\.(html|htm|php)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+    
+    # JSON API sin caché
+    <FilesMatch "\.json$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# -------------------------------------------------------------------
+# SEGURIDAD Y HEADERS DE RENDIMIENTO
+# -------------------------------------------------------------------
+<IfModule mod_headers.c>
+    # Seguridad
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Permisos
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # HSTS (solo si usas HTTPS - muy importante para PageSpeed)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    
+    # Eliminar headers innecesarios
+    Header unset X-Powered-By
+    Header unset Server
+    
+    # DNS Prefetch control
+    Header set X-DNS-Prefetch-Control "on"
+</IfModule>
+
+# Eliminar Server signature
+ServerSignature Off
+
+# -------------------------------------------------------------------
+# TIPOS MIME CORRECTOS
+# -------------------------------------------------------------------
+<IfModule mod_mime.c>
+    # JavaScript
+    AddType application/javascript js mjs
+    AddType application/json json map
+    
+    # Fuentes
+    AddType font/woff woff
+    AddType font/woff2 woff2
+    AddType font/ttf ttf
+    AddType font/otf otf
+    AddType font/eot eot
+    AddType application/vnd.ms-fontobject eot
+    
+    # Imágenes modernas
+    AddType image/webp webp
+    AddType image/avif avif
+    AddType image/svg+xml svg svgz
+    
+    # Otros
+    AddType application/manifest+json webmanifest
+    AddType text/cache-manifest appcache manifest
+    AddType application/wasm wasm
+</IfModule>
+
+# -------------------------------------------------------------------
+# ETAG (desactivar para assets estáticos, usar Cache-Control)
+# -------------------------------------------------------------------
+<IfModule mod_headers.c>
+    # Desactivar ETags para mejor rendimiento en CDNs
+    Header unset ETag
+</IfModule>
+FileETag None
+
+# -------------------------------------------------------------------
+# KEEP-ALIVE
+# -------------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header set Connection keep-alive
+</IfModule>
