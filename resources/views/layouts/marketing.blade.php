@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="es-PE" class="scroll-smooth">
+<html lang="es-PE" class="scroll-smooth dark">
 <head>
-  <!-- Script para aplicar tema oscuro antes del render (evita flash) -->
+  <!-- Script para aplicar tema según preferencia del usuario (evita flash) -->
   <script>
     (function() {
       var theme = localStorage.getItem('theme');
-      // Por defecto modo oscuro, solo cambiar a claro si explícitamente se eligió 'light'
-      if (theme !== 'light') {
-        document.documentElement.classList.add('dark');
+      // Por defecto modo oscuro (clase ya está en HTML), solo remover si explícitamente se eligió 'light'
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
       }
     })();
   </script>

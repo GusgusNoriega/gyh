@@ -499,7 +499,7 @@
       toastTimer = setTimeout(() => toast.classList.add("hidden"), 2200);
     }
 
-    // Dark mode (clase en <html>)
+    // Dark mode (clase en <html>) - Por defecto modo oscuro
     const themeBtn = $("#themeBtn");
     const themeIcon = $("#themeIcon");
     const root = document.documentElement;
@@ -513,10 +513,11 @@
       }
       localStorage.setItem("theme", mode);
     }
-    applyTheme(localStorage.getItem("theme") || "light");
+    // Por defecto modo oscuro si no hay preferencia guardada
+    applyTheme(localStorage.getItem("theme") || "dark");
     themeBtn?.addEventListener("click", () => {
-      const cur = localStorage.getItem("theme") || "light";
-      applyTheme(cur === "light" ? "dark" : "light");
+      const cur = localStorage.getItem("theme") || "dark";
+      applyTheme(cur === "dark" ? "light" : "dark");
       showToast(`Modo ${localStorage.getItem("theme") === "dark" ? "oscuro" : "claro"}`);
     });
 
