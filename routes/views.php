@@ -15,40 +15,41 @@ use App\Http\Controllers\LeadController;
 |
 */
 
-// Ruta principal
+// Ruta principal (landing pública)
 Route::get('/', function () {
     return view('marketing.home');
 })->name('home')->middleware('guest');
+
+// Alias (útil para campañas / testing)
+Route::get('/landing', function () {
+    return view('marketing.home');
+})->name('landing')->middleware('guest');
 
 // Página de gracias (lectura única por token)
 Route::get('/gracias/{token}', [LeadController::class, 'thankYou'])
     ->name('leads.thankyou')
     ->middleware('guest');
 
-// Páginas legales (requeridas para Google Ads)
-Route::get('/privacidad', function () {
-    return view('marketing.privacidad');
-})->name('privacidad')->middleware('guest');
-
+// Páginas legales
 Route::get('/terminos', function () {
     return view('marketing.terminos');
 })->name('terminos')->middleware('guest');
 
+// Páginas eliminadas (privacidad / cookies)
+Route::get('/privacidad', function () {
+    return response('', 410);
+})->name('privacidad')->middleware('guest');
+
 Route::get('/cookies', function () {
-    return view('marketing.cookies');
+    return response('', 410);
 })->name('cookies')->middleware('guest');
 
-// Sitemap (páginas públicas)
+// Sitemap (páginas públicas) - deshabilitado porque no hay páginas indexables
 Route::get('/sitemap.xml', function () {
     $baseUrl = url('/');
     $lastmod = now()->toDateString();
 
-    $urls = [
-        ['loc' => $baseUrl, 'changefreq' => 'weekly', 'priority' => '1.0'],
-        ['loc' => url('/privacidad'), 'changefreq' => 'monthly', 'priority' => '0.3'],
-        ['loc' => url('/terminos'), 'changefreq' => 'monthly', 'priority' => '0.3'],
-        ['loc' => url('/cookies'), 'changefreq' => 'monthly', 'priority' => '0.3'],
-    ];
+    $urls = [];
 
     $urlsXml = '';
     foreach ($urls as $url) {

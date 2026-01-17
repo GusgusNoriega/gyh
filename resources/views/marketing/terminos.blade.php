@@ -11,9 +11,9 @@
   <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
     <!-- Header -->
     <div class="mb-12">
-      <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] transition mb-6">
+      <a href="{{ route('login') }}" class="inline-flex items-center gap-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] transition mb-6">
         <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        Volver al inicio
+        Ir a iniciar sesión
       </a>
       <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Términos y Condiciones</h1>
       <p class="mt-3 text-sm text-[var(--c-muted)]">Última actualización: {{ now()->format('d/m/Y') }}</p>
@@ -256,7 +256,7 @@
             <ul class="text-[var(--c-muted)] space-y-2">
               <li><strong class="text-[var(--c-text)]">Email:</strong> <a href="mailto:hola@systemsgg.com" class="text-[var(--c-primary)] hover:underline">hola@systemsgg.com</a></li>
               <li><strong class="text-[var(--c-text)]">WhatsApp:</strong> +51 949 421 023</li>
-              <li><strong class="text-[var(--c-text)]">Formulario:</strong> <a href="{{ route('home') }}#contacto" class="text-[var(--c-primary)] hover:underline">systemsgg.com/contacto</a></li>
+              <li><strong class="text-[var(--c-text)]">Acceso:</strong> <a href="{{ route('login') }}" class="text-[var(--c-primary)] hover:underline">Iniciar sesión</a></li>
             </ul>
           </div>
         </div>
@@ -264,12 +264,6 @@
       </div>
     </div>
 
-    <!-- Links relacionados -->
-    <div class="mt-8 flex flex-wrap items-center justify-center gap-4 text-sm text-[var(--c-muted)]">
-      <a href="{{ route('privacidad') }}" class="hover:text-[var(--c-text)] transition">Política de Privacidad</a>
-      <span>•</span>
-      <a href="{{ route('cookies') }}" class="hover:text-[var(--c-text)] transition">Política de Cookies</a>
-    </div>
   </div>
 </section>
 @endsection

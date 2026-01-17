@@ -1,26 +1,106 @@
-@extends('layouts.marketing')
+<!doctype html>
+<html lang="es-PE" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="G&H Ingeniería y Construcción - CREATIVE GUILLEN G & H EJECUTOR S.A.C. (RUC 20604851620). Servicios generales, mantenimiento, ejecución y construcción en Perú." />
+  <title>G&H Ingeniería y Construcción | Servicios Generales - Perú</title>
 
-@section('title', 'G&H Ingeniería y Construcción | Servicios Generales - Perú')
-@section('og_title', 'G&H Ingeniería y Construcción | Servicios Generales - Perú')
-@section('canonical', url('/'))
-@section('meta_description', 'G&H Ingeniería y Construcción - CREATIVE GUILLEN G & H EJECUTOR S.A.C. (RUC 20604851620). Servicios generales, mantenimiento, ejecución y construcción en Perú.')
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-{{-- Datos de marca / schema para este sitio (sobrescribe defaults del layout) --}}
-@section('site_name', 'G&H Ingeniería y Construcción')
-@section('business_name', 'CREATIVE GUILLEN G & H EJECUTOR S.A.C.')
-@section('business_telephone', '+51 000 000 000')
-@section('business_city', 'Perú')
-@section('business_country', 'PE')
-@section('service_1', 'Servicios generales')
-@section('service_2', 'Ingeniería y construcción')
-@section('knows_about_1', 'servicios generales en Perú')
-@section('knows_about_2', 'mantenimiento y ejecución de obras')
-@section('knows_about_3', 'suministros y logística')
-@section('knows_about_4', 'ingeniería y construcción')
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: "#fff1f1",
+              100: "#ffe1e1",
+              200: "#ffc7c7",
+              300: "#ff9a9a",
+              400: "#ff6b6b",
+              500: "#d84a4a",
+              600: "#B63232",
+              700: "#8f2424",
+              800: "#6f1d1d",
+              900: "#4d1414"
+            },
+            coal: {
+              50: "#f8fafc",
+              100: "#f1f5f9",
+              200: "#e2e8f0",
+              300: "#cbd5e1",
+              400: "#94a3b8",
+              500: "#64748b",
+              600: "#475569",
+              700: "#334155",
+              800: "#1f2937",
+              900: "#0b0f19"
+            }
+          }
+        }
+      }
+    }
+  </script>
 
-@section('wa_phone_display', '+51 000 000 000')
+  <style>
+    .glass{
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.6);
+    }
+    .shadow-soft{ box-shadow: 0 18px 45px rgba(2,6,23,.12); }
+    .ring-soft{ box-shadow: 0 0 0 1px rgba(15,23,42,.10) inset; }
 
-@section('content')
+    .reveal{ opacity:0; transform: translateY(12px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.show{ opacity:1; transform: translateY(0); }
+
+    .hero-bg{
+      background:
+        radial-gradient(900px 480px at 15% 20%, rgba(182,50,50,0.22), transparent 55%),
+        radial-gradient(900px 480px at 85% 30%, rgba(245,158,11,0.18), transparent 50%),
+        radial-gradient(850px 500px at 50% 85%, rgba(2,132,199,0.10), transparent 55%),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 60%, #ffffff 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .blob{
+      position:absolute;
+      width: 520px; height: 520px;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: .30;
+      animation: floaty 10s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .blob.b1{ left:-140px; top:-160px; background: radial-gradient(circle at 30% 30%, rgba(182,50,50,.9), transparent 60%); }
+    .blob.b2{ right:-180px; top:30px; background: radial-gradient(circle at 30% 30%, rgba(245,158,11,.9), transparent 60%); animation-duration: 12s; }
+    .blob.b3{ left:20%; bottom:-220px; background: radial-gradient(circle at 30% 30%, rgba(2,132,199,.85), transparent 60%); animation-duration: 13s; }
+
+    @keyframes floaty{
+      0%{ transform: translate(0,0) scale(1); }
+      50%{ transform: translate(18px,-14px) scale(1.05); }
+      100%{ transform: translate(0,0) scale(1); }
+    }
+
+    .tilt:hover{ transform: translateY(-4px) scale(1.01); }
+    .tilt{ transition: transform .25s ease, box-shadow .25s ease; }
+
+    .toast{ animation: toastIn .25s ease both; }
+    @keyframes toastIn{ from{ transform: translateY(10px); opacity:0 } to{ transform: translateY(0); opacity:1 } }
+
+    .divider{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(182,50,50,.6), rgba(245,158,11,.6), transparent);
+    }
+  </style>
+</head>
+
+<body class="bg-white text-coal-900 dark:bg-coal-900 dark:text-coal-50">
+
   <!-- Top bar -->
   <div class="w-full bg-coal-900 text-white">
     <div class="mx-auto max-w-7xl px-4 py-2 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between text-sm">
@@ -40,14 +120,15 @@
   <header class="sticky top-0 z-40 bg-white/85 dark:bg-coal-900/75 backdrop-blur border-b border-coal-200/70 dark:border-white/10">
     <div class="mx-auto max-w-7xl px-4 py-4 flex items-center justify-between gap-4">
       <a href="#" class="flex items-center gap-3">
+        <!-- Logo público (placeholder) -->
         <img
           class="h-11 w-11 rounded-2xl bg-white ring-soft object-contain p-1"
           alt="Logo G&H"
-          src="{{ asset('img/logo2.png') }}"
+          src="https://dummyimage.com/96x96/b63232/ffffff.png?text=G%26H"
         />
         <div class="leading-tight">
-          <p class="font-semibold">G&amp;H Ingeniería y Construcción</p>
-          <p class="text-xs text-coal-500 dark:text-coal-300">CREATIVE GUILLEN G &amp; H EJECUTOR S.A.C. • RUC: 20604851620</p>
+          <p class="font-semibold">G&H Ingeniería y Construcción</p>
+          <p class="text-xs text-coal-500 dark:text-coal-300">CREATIVE GUILLEN G & H EJECUTOR S.A.C. • RUC: 20604851620</p>
         </div>
       </a>
 
@@ -59,7 +140,7 @@
       </nav>
 
       <div class="flex items-center gap-2">
-        <button id="themeBtn" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-coal-200 dark:border-white/10 hover:bg-coal-50 dark:hover:bg-white/5 text-sm" type="button">
+        <button id="themeBtn" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-coal-200 dark:border-white/10 hover:bg-coal-50 dark:hover:bg-white/5 text-sm">
           <span id="themeIcon" aria-hidden="true">🌙</span>
           <span class="hidden lg:inline">Modo</span>
         </button>
@@ -68,11 +149,7 @@
           Cotizar ahora
         </a>
 
-        <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl border border-coal-200 dark:border-white/10 hover:bg-coal-50 dark:hover:bg-white/5 text-sm">
-          Ingresar
-        </a>
-
-        <button id="menuBtn" class="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl border border-coal-200 dark:border-white/10 hover:bg-coal-50 dark:hover:bg-white/5" aria-label="Abrir menú" type="button">
+        <button id="menuBtn" class="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl border border-coal-200 dark:border-white/10 hover:bg-coal-50 dark:hover:bg-white/5" aria-label="Abrir menú">
           ☰
         </button>
       </div>
@@ -85,7 +162,6 @@
         <a class="py-2" href="#proceso">Proceso</a>
         <a class="py-2" href="#galeria">Galería</a>
         <a class="py-2" href="#contacto">Contacto</a>
-        <a class="py-2" href="{{ route('login') }}">Ingresar</a>
         <a class="mt-2 inline-flex items-center justify-center px-4 py-2 rounded-xl bg-brand-600 text-white hover:bg-brand-700 shadow-soft" href="#contacto">
           Cotizar ahora
         </a>
@@ -111,7 +187,7 @@
         </h1>
 
         <p class="mt-4 text-coal-600 dark:text-coal-200 text-base sm:text-lg max-w-xl">
-          En <span class="font-semibold">CREATIVE GUILLEN G &amp; H EJECUTOR S.A.C.</span> (RUC 20604851620)
+          En <span class="font-semibold">CREATIVE GUILLEN G & H EJECUTOR S.A.C.</span> (RUC 20604851620)
           brindamos <span class="font-semibold">servicios generales</span> para hogares y empresas: mantenimiento,
           ejecución, mejoras, soporte y suministros.
         </p>
@@ -176,7 +252,7 @@
 
           <div class="mt-6 p-4 rounded-2xl bg-coal-900 text-white">
             <p class="text-xs text-white/70">Razón social</p>
-            <p class="text-sm font-semibold">CREATIVE GUILLEN G &amp; H EJECUTOR S.A.C.</p>
+            <p class="text-sm font-semibold">CREATIVE GUILLEN G & H EJECUTOR S.A.C.</p>
             <p class="text-xs text-white/70 mt-1">RUC: <span class="text-white font-semibold">20604851620</span></p>
           </div>
         </div>
@@ -379,7 +455,7 @@
         </p>
 
         <div class="mt-6 p-6 rounded-3xl border border-coal-200 dark:border-white/10 bg-coal-50 dark:bg-white/5">
-          <p class="text-sm"><span class="font-semibold">Razón social:</span> CREATIVE GUILLEN G &amp; H EJECUTOR S.A.C.</p>
+          <p class="text-sm"><span class="font-semibold">Razón social:</span> CREATIVE GUILLEN G & H EJECUTOR S.A.C.</p>
           <p class="text-sm mt-2"><span class="font-semibold">RUC:</span> 20604851620</p>
           <p class="text-sm mt-2"><span class="font-semibold">País:</span> Perú</p>
 
@@ -396,15 +472,15 @@
 
           <div class="mt-6 grid sm:grid-cols-2 gap-4">
             <div>
-              <label class="text-sm font-medium" for="name">Nombre</label>
+              <label class="text-sm font-medium">Nombre</label>
               <input id="name" required class="mt-2 w-full px-4 py-3 rounded-2xl border border-coal-200 dark:border-white/10 bg-white dark:bg-coal-900 focus:outline-none focus:ring-2 focus:ring-brand-300" placeholder="Tu nombre" />
             </div>
             <div>
-              <label class="text-sm font-medium" for="phone">Teléfono / WhatsApp</label>
+              <label class="text-sm font-medium">Teléfono / WhatsApp</label>
               <input id="phone" class="mt-2 w-full px-4 py-3 rounded-2xl border border-coal-200 dark:border-white/10 bg-white dark:bg-coal-900 focus:outline-none focus:ring-2 focus:ring-brand-300" placeholder="+51 ..." />
             </div>
             <div class="sm:col-span-2">
-              <label class="text-sm font-medium" for="service">Servicio requerido</label>
+              <label class="text-sm font-medium">Servicio requerido</label>
               <select id="service" class="mt-2 w-full px-4 py-3 rounded-2xl border border-coal-200 dark:border-white/10 bg-white dark:bg-coal-900 focus:outline-none focus:ring-2 focus:ring-brand-300">
                 <option>Mantenimiento integral</option>
                 <option>Ejecución y mejoras</option>
@@ -416,7 +492,7 @@
               </select>
             </div>
             <div class="sm:col-span-2">
-              <label class="text-sm font-medium" for="details">Detalle</label>
+              <label class="text-sm font-medium">Detalle</label>
               <textarea id="details" rows="4" required class="mt-2 w-full px-4 py-3 rounded-2xl border border-coal-200 dark:border-white/10 bg-white dark:bg-coal-900 focus:outline-none focus:ring-2 focus:ring-brand-300" placeholder="Describe lo que necesitas (ciudad/zona, urgencia, metraje, etc.)"></textarea>
             </div>
           </div>
@@ -431,7 +507,7 @@
           </div>
 
           <div class="mt-6">
-            <label class="text-sm font-medium" for="output">Mensaje generado</label>
+            <label class="text-sm font-medium">Mensaje generado</label>
             <textarea id="output" rows="6" readonly class="mt-2 w-full px-4 py-3 rounded-2xl border border-coal-200 dark:border-white/10 bg-coal-50 dark:bg-white/5 text-sm focus:outline-none"></textarea>
             <p class="mt-2 text-xs text-coal-500 dark:text-coal-300">Listo para pegar en WhatsApp o correo.</p>
           </div>
@@ -444,7 +520,7 @@
   <footer class="border-t border-coal-200 dark:border-white/10 py-10">
     <div class="mx-auto max-w-7xl px-4 flex flex-col md:flex-row gap-6 md:items-center md:justify-between">
       <div class="space-y-1">
-        <p class="font-semibold">CREATIVE GUILLEN G &amp; H EJECUTOR S.A.C.</p>
+        <p class="font-semibold">CREATIVE GUILLEN G & H EJECUTOR S.A.C.</p>
         <p class="text-sm text-coal-600 dark:text-coal-200">RUC: 20604851620 • Perú</p>
       </div>
       <div class="text-sm text-coal-600 dark:text-coal-200 flex flex-wrap gap-x-5 gap-y-2">
@@ -452,7 +528,6 @@
         <a class="hover:text-brand-700" href="#proceso">Proceso</a>
         <a class="hover:text-brand-700" href="#galeria">Galería</a>
         <a class="hover:text-brand-700" href="#contacto">Contacto</a>
-        <a class="hover:text-brand-700" href="{{ route('terminos') }}">Términos</a>
       </div>
       <p class="text-xs text-coal-500 dark:text-coal-300">
         © <span id="year"></span> • Todos los derechos reservados.
@@ -466,17 +541,14 @@
       <span id="toastMsg">Listo</span>
     </div>
   </div>
-@endsection
 
-@section('scripts')
   <script>
     // ===== Helpers =====
     const $ = (s) => document.querySelector(s);
     const $$ = (s) => document.querySelectorAll(s);
 
     // Año
-    const yearEl = $("#year");
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
+    $("#year").textContent = new Date().getFullYear();
 
     // Menú móvil
     $("#menuBtn")?.addEventListener("click", () => $("#mobileMenu")?.classList.toggle("hidden"));
@@ -491,25 +563,24 @@
     const toast = $("#toast");
     const toastMsg = $("#toastMsg");
     let toastTimer = null;
-    function showToast(msg) {
-      if (!toast || !toastMsg) return;
+    function showToast(msg){
       toastMsg.textContent = msg;
       toast.classList.remove("hidden");
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => toast.classList.add("hidden"), 2200);
     }
 
-    // Dark mode (clase en <html>)
+    // Dark mode
     const themeBtn = $("#themeBtn");
     const themeIcon = $("#themeIcon");
     const root = document.documentElement;
-    function applyTheme(mode) {
-      if (mode === "dark") {
+    function applyTheme(mode){
+      if(mode === "dark"){
         root.classList.add("dark");
-        if (themeIcon) themeIcon.textContent = "☀️";
+        themeIcon.textContent = "☀️";
       } else {
         root.classList.remove("dark");
-        if (themeIcon) themeIcon.textContent = "🌙";
+        themeIcon.textContent = "🌙";
       }
       localStorage.setItem("theme", mode);
     }
@@ -526,14 +597,14 @@
     const copyBtn = $("#copyBtn");
     const submitBtn = $("#submitBtn");
 
-    function buildMessage() {
-      const name = $("#name")?.value?.trim() || '';
-      const phone = $("#phone")?.value?.trim() || '';
-      const service = $("#service")?.value?.trim() || '';
-      const details = $("#details")?.value?.trim() || '';
+    function buildMessage(){
+      const name = $("#name").value.trim();
+      const phone = $("#phone").value.trim();
+      const service = $("#service").value.trim();
+      const details = $("#details").value.trim();
 
       return (
-`Hola, soy ${name}${phone ? " (" + phone + ")" : ""}.
+`Hola, soy ${name}${phone ? " ("+phone+")" : ""}.
 Quisiera una cotización para: ${service}.
 
 Detalle:
@@ -547,55 +618,51 @@ País: Perú`
 
     form?.addEventListener("submit", (e) => {
       e.preventDefault();
-      if (submitBtn) {
-        submitBtn.classList.add("opacity-75");
-        submitBtn.textContent = "Generando...";
-      }
+      submitBtn.classList.add("opacity-75");
+      submitBtn.textContent = "Generando...";
       setTimeout(() => {
-        if (output) output.value = buildMessage();
-        if (submitBtn) {
-          submitBtn.classList.remove("opacity-75");
-          submitBtn.textContent = "Generar mensaje";
-        }
-        showToast("Mensaje generado");
+        output.value = buildMessage();
+        submitBtn.classList.remove("opacity-75");
+        submitBtn.textContent = "Generar mensaje";
+        showToast("Mensaje generado ✅");
       }, 300);
     });
 
     copyBtn?.addEventListener("click", async () => {
-      if (!output || !output.value.trim()) {
+      if(!output.value.trim()){
         showToast("Primero genera el mensaje");
         return;
       }
-      try {
+      try{
         await navigator.clipboard.writeText(output.value);
-        showToast("Copiado");
+        showToast("Copiado 📋");
       } catch {
         output.select();
         document.execCommand("copy");
-        showToast("Copiado");
+        showToast("Copiado 📋");
       }
     });
 
     // ===== Counters (animación) =====
-    function animateCount(el, to) {
+    function animateCount(el, to){
       const dur = 900;
       const start = performance.now();
       const from = 0;
 
-      function tick(now) {
+      function tick(now){
         const t = Math.min(1, (now - start) / dur);
         const val = Math.floor(from + (to - from) * (t));
         el.textContent = val.toString();
-        if (t < 1) requestAnimationFrame(tick);
+        if(t < 1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
     }
 
     const countObserver = new IntersectionObserver((entries) => {
       entries.forEach(ent => {
-        if (ent.isIntersecting) {
+        if(ent.isIntersecting){
           const el = ent.target;
-          if (el.dataset.done) return;
+          if(el.dataset.done) return;
           el.dataset.done = "1";
           animateCount(el, parseInt(el.dataset.to, 10));
         }
@@ -605,33 +672,34 @@ País: Perú`
     $$(".count").forEach(el => countObserver.observe(el));
 
     // ===== Imágenes públicas (URLs) =====
-    // Imágenes de servicios (en orden: Mantenimiento integral, Ejecución y mejoras, Construcción/obras, Suministros y logística, Servicios operativos, Atención personalizada)
+    // source.unsplash.com devuelve imágenes públicas aleatorias por tema (perfecto para demo).
+    // "sig" garantiza que no se repitan.
+
     const serviceImageURLs = [
-      "{{ asset('img/mantenimiento-integral.png') }}",
-      "{{ asset('img/ejecucionymejoras.png') }}",
-      "{{ asset('img/construccion-y-hobras.png') }}",
-      "{{ asset('img/suministro-y-logistica.png') }}",
-      "{{ asset('img/servicios-operativos.png') }}",
-      "{{ asset('img/atencion-perzonalizada.png') }}",
+      "https://source.unsplash.com/1200x800/?building,construction&sig=11",
+      "https://source.unsplash.com/1200x800/?renovation,construction&sig=12",
+      "https://source.unsplash.com/1200x800/?architecture,construction&sig=13",
+      "https://source.unsplash.com/1200x800/?construction,engineering&sig=14",
+      "https://source.unsplash.com/1200x800/?maintenance,tools&sig=15",
+      "https://source.unsplash.com/1200x800/?blueprint,engineer&sig=16",
     ];
 
     const galleryImageURLs = [
-      "{{ asset('img/imagen11.png') }}",
-      "{{ asset('img/imagen12.png') }}",
-      "{{ asset('img/imagen13.png') }}",
-      "{{ asset('img/imagen14.png') }}",
-      "{{ asset('img/imagen15.png') }}",
-      "{{ asset('img/imagen5.png') }}",
-      "{{ asset('img/imagen6.png') }}",
-      "{{ asset('img/imagen7.png') }}",
+      "https://source.unsplash.com/1200x800/?construction-site&sig=31",
+      "https://source.unsplash.com/1200x800/?cement,construction&sig=32",
+      "https://source.unsplash.com/1200x800/?builder,helmet&sig=33",
+      "https://source.unsplash.com/1200x800/?architecture,building&sig=34",
+      "https://source.unsplash.com/1200x800/?warehouse,logistics&sig=35",
+      "https://source.unsplash.com/1200x800/?tools,repair&sig=36",
+      "https://source.unsplash.com/1200x800/?electrician,work&sig=37",
+      "https://source.unsplash.com/1200x800/?plumbing,maintenance&sig=38",
     ];
 
-    // Imágenes del hero mini (en orden: Mantenimiento, Ejecución, Suministros, Soporte)
     const heroMiniURLs = [
-      "{{ asset('img/mantenimiento-integral.png') }}",
-      "{{ asset('img/ejecucionymejoras.png') }}",
-      "{{ asset('img/suministro-y-logistica.png') }}",
-      "{{ asset('img/atencion-perzonalizada.png') }}",
+      "https://source.unsplash.com/800x600/?tools&sig=21",
+      "https://source.unsplash.com/800x600/?construction&sig=22",
+      "https://source.unsplash.com/800x600/?delivery,truck&sig=23",
+      "https://source.unsplash.com/800x600/?teamwork,industry&sig=24",
     ];
 
     // Rellena imágenes de servicios (6)
@@ -661,5 +729,5 @@ País: Perú`
       box.style.backgroundPosition = "center";
     });
   </script>
-@endsection
-
+</body>
+</html>

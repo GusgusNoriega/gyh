@@ -21,8 +21,8 @@
             </p>
 
             <div class="mt-6">
-              <a href="{{ route('home') }}" class="inline-flex items-center justify-center rounded-xl bg-white/5 px-5 py-3 text-sm font-semibold text-[var(--c-text)] ring-1 ring-white/10 hover:bg-white/10 transition">
-                Volver al inicio
+              <a href="{{ route('login') }}" class="inline-flex items-center justify-center rounded-xl bg-white/5 px-5 py-3 text-sm font-semibold text-[var(--c-text)] ring-1 ring-white/10 hover:bg-white/10 transition">
+                Ir a iniciar sesión
               </a>
             </div>
           @else
@@ -66,8 +66,8 @@
             </div>
 
             <div class="mt-7">
-              <a href="{{ route('home') }}" class="inline-flex items-center justify-center rounded-xl bg-white/5 px-5 py-3 text-sm font-semibold text-[var(--c-text)] ring-1 ring-white/10 hover:bg-white/10 transition">
-                Volver al inicio
+              <a href="{{ route('login') }}" class="inline-flex items-center justify-center rounded-xl bg-white/5 px-5 py-3 text-sm font-semibold text-[var(--c-text)] ring-1 ring-white/10 hover:bg-white/10 transition">
+                Ir a iniciar sesión
               </a>
             </div>
           @endif
@@ -93,4 +93,3 @@
     </script>
   @endif
 @endsection
-

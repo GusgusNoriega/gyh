@@ -1,6 +1,15 @@
 <!doctype html>
-<html lang="es-PE" class="dark scroll-smooth">
+<html lang="es-PE" class="scroll-smooth">
 <head>
+  <!-- Script para aplicar tema oscuro antes del render (evita flash) -->
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QQL7KN3BHN"></script>
 <script>
@@ -25,7 +34,8 @@
   <title>@yield('title', 'SystemsGG • Desarrollo de software a medida y páginas web en Lima')</title>
 
   @php
-    $siteName = 'SystemsGG';
+    // Permite override por vista (landing / campañas)
+    $siteName = trim((string)($__env->yieldContent('site_name') ?: 'SystemsGG'));
     // Canonical consistente PERO basado en el host real del request.
     // Evita que un APP_URL mal configurado (ej. "https://systemsgg.com")
     // genere URLs canónicas hacia otro dominio.
@@ -58,7 +68,7 @@
     $ogImage = url(asset('img/logo-systems-gg.png'));
 
     // Contacto (WhatsApp) reutilizado en footer + botón flotante
-    $waPhoneDisplay = '+51 949 421 023';
+    $waPhoneDisplay = trim((string)($__env->yieldContent('wa_phone_display') ?: '+51 949 421 023'));
     $waPhoneDigits = preg_replace('/\D+/', '', $waPhoneDisplay);
     $waText = 'Hola, vengo desde la web de SystemsGG. Quisiera una cotización.';
     $waUrl = 'https://wa.me/' . $waPhoneDigits . '?text=' . rawurlencode($waText);
@@ -86,8 +96,8 @@
   <meta name="twitter:description" content="{{ $metaDescription }}" />
   <meta name="twitter:image" content="{{ $ogImage }}" />
 
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#0a0f1f" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#ffffff" />
 
   <!-- ============================================================= -->
   <!-- OPTIMIZACIONES PARA PAGESPEED / GTMETRIX -->
@@ -121,29 +131,60 @@
   <style>
     /* CSS Crítico - Above the fold */
     :root {
-      --c-bg: oklch(0.15 0.02 255);
-      --c-surface: oklch(0.19 0.02 255);
-      --c-elev: oklch(0.23 0.02 255);
-      --c-text: oklch(0.93 0.02 255);
-      --c-muted: oklch(0.74 0.02 255);
-      --c-border: oklch(0.35 0.02 255);
-      --c-primary: oklch(0.72 0.14 260);
-      --c-primary-2: oklch(0.66 0.16 285);
-      --c-accent: oklch(0.76 0.12 165);
-      --shadow-soft: 0 1px 2px rgba(0,0,0,.10), 0 12px 40px rgba(0,0,0,.35);
+      /* Tema claro (fondo blanco) */
+      /* Nota: usamos HEX/RGB (no OKLCH) para máxima compatibilidad */
+      --c-bg: #ffffff;
+      --c-surface: #f8fafc; /* slate-50 */
+      --c-elev: #ffffff;
+      --c-text: #0f172a; /* slate-900 */
+      --c-muted: #475569; /* slate-600 */
+      --c-border: #e2e8f0; /* slate-200 */
+
+      /* Paleta (marca) */
+      --c-primary: #2563eb; /* blue-600 */
+      --c-primary-2: #7c3aed; /* violet-600 */
+      --c-accent: #10b981; /* emerald-500 */
+
+      --shadow-soft: 0 1px 2px rgba(0,0,0,.06), 0 14px 30px rgba(2,6,23,.10);
       --radius: 18px;
+      color-scheme: light;
+
+      /* =============================================================
+         Landing theme tokens (modificar aquí para cambiar toda la landing)
+         ============================================================= */
+      --lp-bg: var(--c-bg);
+      --lp-surface: var(--c-elev);
+      --lp-elev: var(--c-elev);
+      --lp-border: var(--c-border);
+
+      --lp-primary: var(--c-primary);
+      --lp-primary-2: var(--c-primary-2);
+      --lp-accent: var(--c-accent);
+      --lp-on-primary: #ffffff;
+
+      --lp-glow-1: rgba(37,99,235,.18);
+      --lp-glow-2: rgba(16,185,129,.14);
+    }
+
+    /* Modo oscuro - Variables CSS (igual que inicio.html) */
+    :root.dark {
+      --c-bg: #0b0f19; /* coal-900 */
+      --c-surface: #0b0f19;
+      --c-elev: #1f2937; /* coal-800 */
+      --c-text: #f8fafc; /* coal-50 */
+      --c-muted: #cbd5e1; /* coal-300 */
+      --c-border: rgba(255, 255, 255, 0.1);
       color-scheme: dark;
+
+      --lp-bg: var(--c-bg);
+      --lp-surface: var(--c-elev);
+      --lp-elev: var(--c-elev);
+      --lp-border: var(--c-border);
     }
     
     /* Evitar CLS (Cumulative Layout Shift) */
     html { 
       scrollbar-gutter: stable; 
-    }
-    
-    body {
-      background-color: var(--c-bg);
-      color: var(--c-text);
-      min-height: 100vh;
     }
     
     /* Alpine.js cloak */
@@ -184,13 +225,18 @@
 
   <!-- Datos estructurados (SEO) -->
   @php
+    $businessName = trim((string)($__env->yieldContent('business_name') ?: $siteName));
+    $businessTelephone = trim((string)($__env->yieldContent('business_telephone') ?: '+57 300 000 0000'));
+    $businessCity = trim((string)($__env->yieldContent('business_city') ?: 'Lima'));
+    $businessCountry = trim((string)($__env->yieldContent('business_country') ?: 'PE'));
+
     $jsonLd = [
       '@context' => 'https://schema.org',
       '@graph' => [
         [
           '@type' => 'Organization',
           '@id' => $siteUrl.'#organization',
-          'name' => $siteName,
+          'name' => $businessName,
           'url' => $siteUrl,
           'logo' => $ogImage,
           'sameAs' => [],
@@ -209,34 +255,34 @@
           'name' => $siteName,
           'image' => $ogImage,
           'url' => $siteUrl,
-          'telephone' => '+57 300 000 0000',
+          'telephone' => $businessTelephone,
           'address' => [
             '@type' => 'PostalAddress',
-            'addressLocality' => 'Lima',
-            'addressCountry' => 'PE',
+            'addressLocality' => $businessCity,
+            'addressCountry' => $businessCountry,
           ],
           'areaServed' => [
-            ['@type' => 'City', 'name' => 'Lima'],
+            ['@type' => 'City', 'name' => $businessCity],
             ['@type' => 'Country', 'name' => 'Perú'],
           ],
-          'knowsAbout' => [
-            'desarrollo de páginas web en Lima',
-            'desarrollo web',
-            'desarrollo de software a medida',
-            'integraciones y APIs',
-          ],
+          'knowsAbout' => array_values(array_filter([
+            trim((string)($__env->yieldContent('knows_about_1') ?: 'desarrollo de páginas web en Lima')),
+            trim((string)($__env->yieldContent('knows_about_2') ?: 'desarrollo web')),
+            trim((string)($__env->yieldContent('knows_about_3') ?: 'desarrollo de software a medida')),
+            trim((string)($__env->yieldContent('knows_about_4') ?: 'integraciones y APIs')),
+          ])),
         ],
         [
           '@type' => 'Service',
-          '@id' => $siteUrl.'#service-web',
-          'serviceType' => 'Desarrollo de páginas web en Lima',
+          '@id' => $siteUrl.'#service-1',
+          'serviceType' => trim((string)($__env->yieldContent('service_1') ?: 'Desarrollo de páginas web en Lima')),
           'provider' => ['@id' => $siteUrl.'#localbusiness'],
-          'areaServed' => ['@type' => 'City', 'name' => 'Lima'],
+          'areaServed' => ['@type' => 'City', 'name' => $businessCity],
         ],
         [
           '@type' => 'Service',
-          '@id' => $siteUrl.'#service-software',
-          'serviceType' => 'Desarrollo de software a medida',
+          '@id' => $siteUrl.'#service-2',
+          'serviceType' => trim((string)($__env->yieldContent('service_2') ?: 'Desarrollo de software a medida')),
           'provider' => ['@id' => $siteUrl.'#localbusiness'],
           'areaServed' => ['@type' => 'Country', 'name' => 'Perú'],
         ],
@@ -248,17 +294,13 @@
   <!-- Slot para recursos adicionales específicos de la página -->
   @yield('head')
 </head>
-<body class="min-h-screen bg-[var(--c-bg)] text-[var(--c-text)] font-sans">
+<body class="min-h-screen bg-white text-coal-900 dark:bg-coal-900 dark:text-coal-50 font-sans">
   {{-- Preloader reutilizable (en marketing inicia oculto; se usa al enviar el formulario) --}}
   @include('components.preloader', ['startVisible' => false])
-
-  @include('components.marketing.header')
 
   <main>
     @yield('content')
   </main>
-
-  @include('components.marketing.footer')
 
   <!-- Scripts no críticos cargados al final -->
   @yield('scripts')
