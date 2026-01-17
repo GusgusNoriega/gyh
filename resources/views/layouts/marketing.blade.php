@@ -5,7 +5,8 @@
   <script>
     (function() {
       var theme = localStorage.getItem('theme');
-      if (theme === 'dark') {
+      // Por defecto modo oscuro, solo cambiar a claro si explícitamente se eligió 'light'
+      if (theme !== 'light') {
         document.documentElement.classList.add('dark');
       }
     })();
